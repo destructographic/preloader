@@ -97,26 +97,24 @@ Promise.all(promises)
 
 
 
-loaderCurtain('hide'); // Hide the curtain
-
-
-// get the destination <div> element
-const imageContainer = document.getElementById('image-container');
-
-// create and append <img> elements
 function displayPreloadedImages() {
- console.log("called: displayPreloadedImages");
- console.log("imageContainer:", imageContainer);
- console.log("preloadedAssets:", preloadedAssets);
-
- // get an array of the preloaded images
- const images = Object.values(preloadedAssets);
-
- // append the images to image-container
- images.forEach((image) => {
-   imageContainer.appendChild(image);
- });
+  const imageContainer = document.getElementById('image-container');
+  console.log("called: displayPreloadedImages");
+  // loop through preloadedAssets
+  for (const src in preloadedAssets) {
+    if (preloadedAssets.hasOwnProperty(src)) {
+      // for every image make an <img> element
+      const imgElement = document.createElement('img');
+      // set the src attribute using the preloaded asset
+      imgElement.src = src;
+      // put the <img> element in the container
+      imageContainer.appendChild(imgElement);
+    }
+  }
 }
 
 
+
+
 displayPreloadedImages();
+loaderCurtain('hide'); // Hide the curtain
