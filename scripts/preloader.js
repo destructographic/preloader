@@ -116,5 +116,6 @@ function displayPreloadedImages() {
 
 
 
+
 displayPreloadedImages();
 loaderCurtain('hide'); // Hide the curtain
