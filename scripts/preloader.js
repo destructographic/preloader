@@ -9,12 +9,23 @@ const assetsForPreload = [
  ];
 
 
- 
-// get the loader div so we can show or hide it
- const loader = document.getElementById('curtain');
 
-// when page is loaded it will be covered by "loading..." div
-loader.style.display = 'block'; 
+ 
+
+// display or hide the loading curtain
+function loaderCurtain(action) {
+  const curtainElement = document.getElementById('curtain');
+  if (action === 'show') {
+    curtainElement.style.display = 'block';
+  } else if (action === 'hide') {
+    curtainElement.style.display = 'none';
+  } else {
+    console.error('Invalid action provided. Use "show" or "hide".');
+  }
+}
+
+
+
 
 
 
@@ -86,18 +97,7 @@ Promise.all(promises)
 
 
 
-
-
-
-
-// ok to remove the "loading..." curtain now
-preloadAssets(() => {
- loader.style.display = 'none';
- // ok to use preloadedAssets to access the assets now
-});
-
-
-
+loaderCurtain('hide'); // Hide the curtain
 
 
 // get the destination <div> element
