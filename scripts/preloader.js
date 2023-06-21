@@ -26,77 +26,49 @@ function loaderCurtain(action) {
 
 
 
-
-
-
 // object to store preloaded assets
 const preloadedAssets = {};
 
 
 
-// preload the assets
-function preloadAssets(callback) {
- let assetsLoaded = 0;
- const totalAssets = assetsForPreload.length;
-}
-// preload the assets
-function preloadAssets(callback) {
-  let assetsLoaded = 0;
-  const totalAssets = assetsForPreload.length;
-  const promises = []; // array for promises
 
-  // loop through the asset
-  assetsForPreload.forEach(asset => {
-    // make sound or image element based on asset type
-    console.log(`loading: ${asset.src}`);
-    let element;
-    if (asset.type === 'image') {
-      element = new Image();
-    } else if (asset.type === 'sound') {
-      element = new Audio();
-    }
 
-    // set source of the element to preload asset
-    element.src = asset.src;
+// preload the assets and return a promise
+function preloadAssets() {
+  return new Promise((resolve, reject) => {
+    let assetsLoaded = 0;
+    const totalAssets = assetsForPreload.length;
 
-    // create a promise for each asset
-    const promise = new Promise((resolve, reject) => {
-      // resolve the promise when asset loaded
+    assetsForPreload.forEach(asset => {
+      let element;
+      if (asset.type === 'image') {
+        element = new Image();
+      } else if (asset.type === 'sound') {
+        element = new Audio();
+      }
+
+      element.src = asset.src;
+
       element.addEventListener('load', () => {
         preloadedAssets[asset.src] = element;
-        console.log(`loaded: ${asset.src}`);
-        resolve();
+        assetsLoaded++;
+        if (assetsLoaded === totalAssets) {
+          resolve();
+        }
       });
 
-      // if error loading asset, reject promise
       element.addEventListener('error', () => {
-        console.log(`Error loading asset: ${asset.src}`);
         reject();
       });
     });
-
-    // add the promise to the promises array
-    promises.push(promise);
   });
-
-
-
-
-// callback when all promises are resolved
-Promise.all(promises)
-.then(() => {
-  console.log("All preload assets are loaded!");
-  callback();
-})
-.catch(() => {
-  console.log("There was an error loading assets.");
-});
 }
 
 
 
 
 
+// demonstration function which places the fully-loaded images into image-container 
 function displayPreloadedImages() {
   const imageContainer = document.getElementById('image-container');
   console.log("called: displayPreloadedImages");
@@ -115,7 +87,17 @@ function displayPreloadedImages() {
 
 
 
+  // --------------------------- //
+ // ------ DEMONSTRATION ------ //
+// --------------------------- //
 
 
-displayPreloadedImages();
-loaderCurtain('hide'); // Hide the curtain
+// chain the functions with promises
+preloadAssets()
+  .then(() => {
+    displayPreloadedImages();
+    loaderCurtain('hide');
+  })
+  .catch(() => {
+    console.log('Error in asset preload.');
+  });
