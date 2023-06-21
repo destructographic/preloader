@@ -8,7 +8,15 @@ const assetsForPreload = [
    // { src: 'assets/track02.mp3', type: 'sound' },
  ];
 
+
  
+// get the loader div so we can show or hide it
+ const loader = document.getElementById('curtain');
+
+// when page is loaded it will be covered by "loading..." div
+loader.style.display = 'block'; 
+
+
 
 // object to store preloaded assets
 const preloadedAssets = {};
@@ -19,54 +27,68 @@ const preloadedAssets = {};
 function preloadAssets(callback) {
  let assetsLoaded = 0;
  const totalAssets = assetsForPreload.length;
+}
+// preload the assets
+function preloadAssets(callback) {
+  let assetsLoaded = 0;
+  const totalAssets = assetsForPreload.length;
+  const promises = []; // array for promises
 
- // loop over each asset
- assetsForPreload.forEach(asset => {
-   // make sound or image element based on asset type
-   console.log(`loading: ${asset.src}`);
-   let element;
-   if (asset.type === 'image') {
-     element = new Image();
-   } else if (asset.type === 'sound') {
-     element = new Audio();
-   }
+  // loop through the asset
+  assetsForPreload.forEach(asset => {
+    // make sound or image element based on asset type
+    console.log(`loading: ${asset.src}`);
+    let element;
+    if (asset.type === 'image') {
+      element = new Image();
+    } else if (asset.type === 'sound') {
+      element = new Audio();
+    }
 
-   // set the source of the element to preload the asset
-   element.src = asset.src;
+    // set source of the element to preload asset
+    element.src = asset.src;
 
-   // when an asset is loaded store it in preloadedAssets
-   element.addEventListener('load', () => {
-     preloadedAssets[asset.src] = element;
-     console.log(`loaded: ${asset.src}`);
+    // create a promise for each asset
+    const promise = new Promise((resolve, reject) => {
+      // resolve the promise when asset loaded
+      element.addEventListener('load', () => {
+        preloadedAssets[asset.src] = element;
+        console.log(`loaded: ${asset.src}`);
+        resolve();
+      });
 
-     assetsLoaded++;
-     if (assetsLoaded === totalAssets) {
-       // all assets are loaded so execute the callback function
-       console.log("All preload assets are loaded!");
-       callback();
-     }
-   });
+      // if error loading asset, reject promise
+      element.addEventListener('error', () => {
+        console.log(`Error loading asset: ${asset.src}`);
+        reject();
+      });
+    });
 
-   element.addEventListener('error', () => {
-     console.log(`Error loading asset: ${asset.src}`);
-     assetsLoaded++;
-     if (assetsLoaded === totalAssets) {
-       // all assets are loaded (including any that failed to load) so execute the callback function
-       console.log("All preload assets are loaded!");
-       callback();
-     }
-   });
- });
+    // add the promise to the promises array
+    promises.push(promise);
+  });
+
+
+
+
+// callback when all promises are resolved
+Promise.all(promises)
+.then(() => {
+  console.log("All preload assets are loaded!");
+  callback();
+})
+.catch(() => {
+  console.log("There was an error loading assets.");
+});
 }
 
 
 
 
-// call it as an object
-const loader = document.getElementById('loader');
 
-// when page is loaded it will be covered by "loading..." div
-loader.style.display = 'block';
+
+
+
 
 // ok to remove the "loading..." curtain now
 preloadAssets(() => {
