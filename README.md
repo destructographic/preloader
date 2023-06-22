@@ -13,6 +13,6 @@ For demonstration purposes this repository has a few images to load. Most likely
   Press reload (usually F5 button). <br />
   ![this is alt text](https://destructographic.github.io/preloader/assets/potato00.png?raw=true)
 </p>
-
+<img src="./assets/potato00.png">
 
 https://destructographic.com/preloader/blob/2a92193bf42560ec461531874e439bdd16c54926/assets/potato00.png
