@@ -11,5 +11,5 @@ For demonstration purposes this repository has a few images to load. Most likely
 	Then disable cache and select a slower connection such as "Good 3G": <br />
   <img width="460" height="300" src="https://destructographic.github.io/preloader/assets/throttle2.png"> <br />
   Press reload (usually F5 button). <br />
-  ![alt text](https://github.com/[destructographic]/[preloader]/blob/[main]/potato0.png?raw=true)
+  ![alt text](https://github.com/destructographic/preloader/blob/main/potato0.png?raw=true)
 </p>
