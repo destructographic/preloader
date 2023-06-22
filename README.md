@@ -2,7 +2,7 @@
 
 ##Preload image and sound assets via JS.
 Live demo [here](https://destructographic.github.io/preloader/).
-<br />
+<br /> <br />
 Place desired assets to be preloaded into the "assetsForPreload" array. While loading, main content will be curtained by "loader" div which is z-indexed above @ 9999. When the assets are finished loading, the "loader" div will hide to reveal the underlying "main-content" div.
 
 For demonstration purposes this repository has a few images to load. Most likely your internet connection is too fast though and you may not even see the loading screen. To solve this problem, use your browser's developer tools to disable cache and simulate a slower connection (aka throttle). In Chrome/Chromium browser throttling can be accomplished as pictured below. 
