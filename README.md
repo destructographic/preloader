@@ -10,7 +10,7 @@ For demonstration purposes this repository has a few images to load. Most likely
 	1. Open your browser's developer tools (usually F12 button). Click "Network" tab.  
   <img src="./assets/screenshot-01.png">  
       
-	2. Disable cache and select a slower connection such as "Fast 3G":  
+	2. Disable cache and select a slower connection such as "Fast 3G"  
   <img src="./assets/screenshot-02.png">  
     
   3. Press reload (usually F5 button or Ctrl+R / Cmd +R).  
